@@ -1,0 +1,46 @@
+# This is a basic workflow to help you get started with Actions
+
+name: coverage
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  pytest-cov:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+        with:
+          python-version: '3.10'
+      - name: install python dependencies
+        run: python -m pip install -r requirement.txt
+      - name: run pytest coverage
+        run: |
+          pytest --cov=src/AD_fbi --cov-report=term-missing > temp.txt
+          k=$(grep 'TOTAL' temp.txt | grep -Po '\d+(?=%)')
+          threshold=90
+          if [ "$k" -ge "$threshold" ];
+            then
+            echo "$k"
+            echo "Succeessfully above 90 coverage"
+            exit 0
+          else
+            echo "$k"
+            echo "Coverage threshold not met"
+            exit 1
+          fi
+      - name: Generate html output
+        run: |
+          pytest --cov=src/AD_fbi --cov-report=html > docs/generate.html
+          rm -f htmlcov/.gitignore
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: htmlcov
+        

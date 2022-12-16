@@ -1,0 +1,27 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+[project]
+name = "AD_fbi"
+version = "0.0.6"
+authors = [
+  { name="Di Zhen", email="dizhen@hsph.harvard.edu" },
+  { name="Queenie Luo", email="queenieluo@g.harvard.edu" },
+  { name="Wenxu Liu", email="wenxuliu@hsph.harvard.edu" },
+  { name="Mengyao Zheng", email="mengyaozheng@hsph.harvard.edu" },
+  { name="Guangya Wan", email="gwan@hsph.harvard.edu" },
+]
+description = "A package computes gradients and performs optimization using the technique of automatic differentiation."
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: GNU General Public License (GPL)",
+    "Operating System :: OS Independent",
+]
+dynamic = ["dependencies"]
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirement.txt"]}
+[project.urls]
+"Homepage" = "https://code.harvard.edu/CS107/team06"
+"Bug Tracker" = "https://code.harvard.edu/CS107/team06/issues"
